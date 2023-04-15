@@ -9,9 +9,10 @@ import {
 import { AuthService } from './auth.service';
 import { LoginArgs } from './args/LoginArgs';
 import { RegisterArgs } from './args/RegisterArgs';
-import { Tokens } from './models/tokens';
+import { Tokens } from './models/Tokens';
 import { FileInterceptor } from '@nestjs/platform-express';
 import type { Multer } from 'multer';
+import { MockAuthRes } from './models/mockAuthRes';
 
 @Controller()
 export class AuthController {
@@ -22,12 +23,12 @@ export class AuthController {
   register(
     @Body() body: RegisterArgs,
     @UploadedFile() file?: Multer.File,
-  ): Promise<Tokens> {
+  ): Promise<MockAuthRes> {
     return this.authService.register(body, file);
   }
 
   @Post('login')
-  login(@Body() body: LoginArgs): Promise<Tokens> {
+  login(@Body() body: LoginArgs): Promise<MockAuthRes> {
     return this.authService.login(body);
   }
 }

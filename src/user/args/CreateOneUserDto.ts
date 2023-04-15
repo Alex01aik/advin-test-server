@@ -1,4 +1,4 @@
-import { IsString, IsEmail, Validate } from 'class-validator';
+import { IsString, IsEmail, Validate, IsMongoId } from 'class-validator';
 import { UserRole } from '../../validation/validationClasses/UserRole';
 
 export class CreateOneUserDto {
@@ -10,4 +10,7 @@ export class CreateOneUserDto {
 
   @Validate(UserRole)
   role: string;
+
+  @IsMongoId()
+  company?: string;
 }

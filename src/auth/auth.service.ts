@@ -4,12 +4,13 @@ import { UserService } from '../user/user.service';
 import { CompanyService } from '../company/company.service';
 import { CustomException } from '../common/CustomException';
 import * as jwt from 'jsonwebtoken';
-import { Tokens } from './models/tokens';
+import { Tokens } from './models/Tokens';
 import { LoginArgs } from './args/LoginArgs';
 import type { Multer } from 'multer';
 import { S3Service } from '../s3/s3.service';
 import { ManagedUpload } from 'aws-sdk/clients/s3';
 import * as dotenv from 'dotenv';
+import { MockAuthRes } from './models/mockAuthRes';
 dotenv.config();
 
 @Injectable()
@@ -21,20 +22,21 @@ export class AuthService {
   ) {}
 
   private readonly jwtSecret: string = process.env.JWT_SECRET;
-
+  // TODO tokens
   async generateAccessToken(userId: string): Promise<string> {
     const payload = { sub: userId };
     const options = { expiresIn: '10m' };
     return jwt.sign(payload, this.jwtSecret, options);
   }
-
+  // TODO tokens
   async generateRefreshToken(userId: string): Promise<string> {
     const payload = { sub: userId };
     const options = { expiresIn: '30d' };
     return jwt.sign(payload, this.jwtSecret, options);
   }
 
-  async register(args: RegisterArgs, file?: Multer.File): Promise<Tokens> {
+  async register(args: RegisterArgs, file?: Multer.File): Promise<MockAuthRes> {
+    console.log('register');
     const isExist = await this.userService.findOneByEmail(args);
 
     if (isExist) {
@@ -49,46 +51,64 @@ export class AuthService {
         file,
         args.name,
       );
-      const user = await this.userService.createOne(args);
-      if (!user) {
-        throw new Error();
-      }
+
       const company = await this.companyService.createOne({
         name: args.name,
-        doc: fileData.Location,
-        userId: user._id.toString(),
+        doc: fileData.Key,
       });
       if (!company) {
         throw new Error();
       }
+
+      const user = await this.userService.createOne({
+        ...args,
+        company: company._id,
+      });
+      if (!user) {
+        throw new Error();
+      }
+    } else {
+      console.log('user');
+      const user = await this.userService.createOne(args);
+      if (!user) {
+        throw new Error();
+      }
     }
 
-    const accessToken = await this.generateAccessToken('user._id.toString()');
-    const refreshToken = await this.generateRefreshToken('user._id.toString()');
-
     return {
-      accessToken,
-      refreshToken,
+      isAuth: true,
     };
+    // TODO tokens
+    // const accessToken = await this.generateAccessToken(user._id.toString());
+    // const refreshToken = await this.generateRefreshToken(user._id.toString());
+
+    // return {
+    //   accessToken,
+    //   refreshToken,
+    // };
   }
 
-  async login(args: LoginArgs): Promise<Tokens> {
+  async login(args: LoginArgs): Promise<MockAuthRes> {
     const user = await this.userService.findOne(args);
 
     if (!user) {
       throw new CustomException('Wrong credentials');
     }
 
-    const accessToken = await this.generateAccessToken(user._id.toString());
-    const refreshToken = await this.generateRefreshToken(user._id.toString());
-
     return {
-      accessToken,
-      refreshToken,
+      isAuth: true,
     };
+    // TODO tokens
+    // const accessToken = await this.generateAccessToken(user._id.toString());
+    // const refreshToken = await this.generateRefreshToken(user._id.toString());
+
+    // return {
+    //   accessToken,
+    //   refreshToken,
+    // };
   }
 
-  // TODO
+  // TODO tokens
   // refreshToken(): string {
   //   return 'refreshToken';
   // }

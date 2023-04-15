@@ -1,4 +1,4 @@
-import { IsMongoId, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class CreateOneCompanyDto {
   @IsString()
@@ -6,7 +6,4 @@ export class CreateOneCompanyDto {
 
   @IsString()
   doc: string;
-
-  @IsMongoId()
-  userId: string;
 }
