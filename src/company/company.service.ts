@@ -22,6 +22,7 @@ export class CompanyService {
 
     const createdCompany = new this.companyModel({
       name: args.name,
+      doc: args.doc,
       user: args.userId,
     });
     await createdCompany.save();

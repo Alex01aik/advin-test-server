@@ -5,4 +5,6 @@ import { UserRole } from '../../validation/validationClasses/UserRole';
 export class RegisterArgs extends LoginArgs {
   @Validate(UserRole)
   role: string;
+
+  name?: string;
 }

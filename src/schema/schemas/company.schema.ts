@@ -10,6 +10,9 @@ export class Company {
   @Prop({ required: true, type: mongoose.Schema.Types.String })
   name: string;
 
+  @Prop({ required: true, type: mongoose.Schema.Types.String })
+  doc: string;
+
   @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   user: User;
 }
