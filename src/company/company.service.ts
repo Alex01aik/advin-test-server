@@ -10,20 +10,12 @@ import { CustomException } from '../common/CustomException';
 export class CompanyService {
   constructor(
     @InjectModel(Company.name) private companyModel: Model<Company>,
-    @InjectModel(User.name) private userModel: Model<User>,
   ) {}
 
   async createOne(args: CreateOneCompanyDto): Promise<CompanyDocument> {
-    const user = await this.userModel.findById(args.userId);
-
-    if (!user || user.role !== 'company') {
-      throw new CustomException("Can't create company");
-    }
-
     const createdCompany = new this.companyModel({
       name: args.name,
       doc: args.doc,
-      user: args.userId,
     });
     await createdCompany.save();
 

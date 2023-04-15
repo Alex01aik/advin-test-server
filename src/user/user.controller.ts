@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDocument } from '../schema/schemas/user.schema';
 
@@ -7,7 +7,10 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('findMany')
-  async findMany(): Promise<UserDocument[]> {
-    return this.userService.findMany();
+  async findMany(
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+  ): Promise<UserDocument[]> {
+    return this.userService.findMany(page, limit);
   }
 }
