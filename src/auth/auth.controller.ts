@@ -11,7 +11,7 @@ import { LoginArgs } from './args/LoginArgs';
 import { RegisterArgs } from './args/RegisterArgs';
 import { FileInterceptor } from '@nestjs/platform-express';
 import type { Multer } from 'multer';
-import { MockAuthRes } from './models/mockAuthRes';
+import { MockAuthRes } from './models/MockAuthRes';
 
 @Controller()
 export class AuthController {

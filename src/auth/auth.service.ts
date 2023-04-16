@@ -9,7 +9,7 @@ import type { Multer } from 'multer';
 import { S3Service } from '../s3/s3.service';
 import { ManagedUpload } from 'aws-sdk/clients/s3';
 import * as dotenv from 'dotenv';
-import { MockAuthRes } from './models/mockAuthRes';
+import { MockAuthRes } from './models/MockAuthRes';
 dotenv.config();
 
 @Injectable()
