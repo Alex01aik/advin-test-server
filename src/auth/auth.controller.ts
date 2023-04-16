@@ -9,7 +9,6 @@ import {
 import { AuthService } from './auth.service';
 import { LoginArgs } from './args/LoginArgs';
 import { RegisterArgs } from './args/RegisterArgs';
-import { Tokens } from './models/Tokens';
 import { FileInterceptor } from '@nestjs/platform-express';
 import type { Multer } from 'multer';
 import { MockAuthRes } from './models/mockAuthRes';

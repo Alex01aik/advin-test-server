@@ -4,7 +4,6 @@ import { UserService } from '../user/user.service';
 import { CompanyService } from '../company/company.service';
 import { CustomException } from '../common/CustomException';
 import * as jwt from 'jsonwebtoken';
-import { Tokens } from './models/Tokens';
 import { LoginArgs } from './args/LoginArgs';
 import type { Multer } from 'multer';
 import { S3Service } from '../s3/s3.service';

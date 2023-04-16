@@ -9,6 +9,8 @@ import { CompanyService } from '../company/company.service';
 import { CompanyModule } from '../company/company.module';
 import { S3Module } from '../s3/s3.module';
 import { S3Service } from '../s3/s3.service';
+import { LoginArgs } from './args/LoginArgs';
+import { RegisterArgs } from './args/RegisterArgs';
 
 @Module({
   imports: [
@@ -19,6 +21,13 @@ import { S3Service } from '../s3/s3.service';
     S3Module,
   ],
   controllers: [AuthController],
-  providers: [AuthService, UserService, CompanyService, S3Service],
+  providers: [
+    AuthService,
+    UserService,
+    CompanyService,
+    S3Service,
+    LoginArgs,
+    RegisterArgs,
+  ],
 })
 export class AuthModule {}
