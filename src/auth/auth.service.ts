@@ -36,7 +36,6 @@ export class AuthService {
   }
 
   async register(args: RegisterArgs, file?: Multer.File): Promise<MockAuthRes> {
-    console.log('register');
     const isExist = await this.userService.findOneByEmail(args);
 
     if (isExist) {
@@ -68,7 +67,6 @@ export class AuthService {
         throw new Error();
       }
     } else {
-      console.log('user');
       const user = await this.userService.createOne(args);
       if (!user) {
         throw new Error();
@@ -88,11 +86,17 @@ export class AuthService {
     // };
   }
 
-  async login(args: LoginArgs): Promise<MockAuthRes> {
+  async login(args: LoginArgs, isAdmin?: boolean): Promise<MockAuthRes> {
     const user = await this.userService.findOne(args);
 
     if (!user) {
       throw new CustomException('Wrong credentials');
+    }
+
+    if (isAdmin) {
+      if (user.role !== 'admin') {
+        throw new CustomException('Permissions denied');
+      }
     }
 
     return {

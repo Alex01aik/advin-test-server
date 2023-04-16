@@ -13,7 +13,7 @@ export class User extends mongoose.Document {
   password: string;
 
   @Prop({ required: true, default: 'user' })
-  role: 'user' | 'company';
+  role: 'user' | 'company' | 'admin';
 
   @Prop({ type: Date, default: Date.now() })
   createdAt: Date;

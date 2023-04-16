@@ -31,4 +31,9 @@ export class AuthController {
   login(@Body() body: LoginArgs): Promise<MockAuthRes> {
     return this.authService.login(body);
   }
+
+  @Post('adminlogin')
+  adminlogin(@Body() body: LoginArgs): Promise<MockAuthRes> {
+    return this.authService.login(body, true);
+  }
 }
