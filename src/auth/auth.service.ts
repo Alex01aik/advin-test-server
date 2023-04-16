@@ -3,7 +3,7 @@ import { RegisterArgs } from './args/RegisterArgs';
 import { UserService } from '../user/user.service';
 import { CompanyService } from '../company/company.service';
 import { CustomException } from '../common/CustomException';
-import * as jwt from 'jsonwebtoken';
+// import * as jwt from 'jsonwebtoken';
 import { LoginArgs } from './args/LoginArgs';
 import type { Multer } from 'multer';
 import { S3Service } from '../s3/s3.service';
@@ -22,17 +22,17 @@ export class AuthService {
 
   private readonly jwtSecret: string = process.env.JWT_SECRET;
   // TODO tokens
-  async generateAccessToken(userId: string): Promise<string> {
-    const payload = { sub: userId };
-    const options = { expiresIn: '10m' };
-    return jwt.sign(payload, this.jwtSecret, options);
-  }
+  // async generateAccessToken(userId: string): Promise<string> {
+  //   const payload = { sub: userId };
+  //   const options = { expiresIn: '10m' };
+  //   return jwt.sign(payload, this.jwtSecret, options);
+  // }
   // TODO tokens
-  async generateRefreshToken(userId: string): Promise<string> {
-    const payload = { sub: userId };
-    const options = { expiresIn: '30d' };
-    return jwt.sign(payload, this.jwtSecret, options);
-  }
+  // async generateRefreshToken(userId: string): Promise<string> {
+  //   const payload = { sub: userId };
+  //   const options = { expiresIn: '30d' };
+  //   return jwt.sign(payload, this.jwtSecret, options);
+  // }
 
   async register(args: RegisterArgs, file?: Multer.File): Promise<MockAuthRes> {
     const isExist = await this.userService.findOneByEmail(args);
